@@ -11,11 +11,12 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 	if( $queryIP  && ip2long($queryIP)){
 		$data['chunzhen'] = iconv('GB2312','UTF-8',convertip_full($queryIP,'./qqwry.dat'));
 		$data['sina'] = getSinaData($queryIP);
-		$data['taobao'] = getTaobaoData($queryIP);
-		echo json_encode($data);
+		$data['taobao'] = getTaobaoData($queryIP);		
 	}else{
-		echo "请输入正确IP";
+		$str = '请输入正确IP';
+		$data['chunzhen'] = $data['sina'] = $data['taobao'] = $str;
 	}
+	echo json_encode($data);
 	exit;
 }
 ?>
@@ -37,7 +38,6 @@ body {
 	padding-bottom: 40px;
 	background-color: #f5f5f5;
 }
-
 .form-ip {
 	color: #666;
 	max-width: 600px;
@@ -52,34 +52,28 @@ body {
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 }
-
 .form-ip input[type="text"] {
 	font-size: 16px;
 	height: auto;
 	margin-bottom: 5px;
 }
-
 .area {
 	color: #fff !important;
 	line-height: 31px;
 	height: 35px;
 	min-height: 35px;
 }
-
 .query {
 	margin-top: 30px;
 }
-
 .source {
 	text-align: right;
 	font-size: 10px;
 	padding-top: 15px;
 }
-
 .loading {
 	width: 43px;
 }
-
 .coryright {
 	margin-top: 30px;
 }
@@ -205,7 +199,8 @@ body {
 				querydata.fadeIn('slow');
 			}
 			return false;
-	      });	      	      
+	      });
+	    $("#queryIP").focus(); 	      	      
 		});
 	</script>
 </body>
