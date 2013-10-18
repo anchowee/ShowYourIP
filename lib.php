@@ -146,6 +146,14 @@ function getTaobaoData($ip){
 	($D['data']['region'] == $D['data']['city']) ? $location = $D['data']['region'] : $location = $D['data']['region'].$D['data']['city'];
 	return $D['data']['country']. $location  . $D['data']['isp'];
 }
-
+function decodeUnicode($str)
+{
+    return preg_replace_callback('/\\\\u([0-9a-f]{4})/i',
+        create_function(
+            '$matches',
+            'return mb_convert_encoding(pack("H*", $matches[1]), "UTF-8", "UCS-2BE");'
+        ),
+        $str);
+}
 
 

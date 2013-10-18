@@ -5,8 +5,8 @@ $yourArea = iconv('GB2312','UTF-8',convertip_full($clientIP,'./qqwry.dat'));
 $yourSina = getSinaData($clientIP);
 $yourTaobao = getTaobaoData($clientIP);
 
-if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-	$queryIP = trim($_GET['queryip']);
+if(isset($_GET['q']) || (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+	$queryIP = trim($_GET['queryip'] ? $_GET['queryip'] : $_GET['q']);
 	$data=array();
 	if( $queryIP  && ip2long($queryIP)){
 		$data['chunzhen'] = iconv('GB2312','UTF-8',convertip_full($queryIP,'./qqwry.dat'));
@@ -16,7 +16,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 		$str = '请输入正确IP';
 		$data['chunzhen'] = $data['sina'] = $data['taobao'] = $str;
 	}
-	echo json_encode($data);
+	echo decodeUnicode(json_encode($data));
 	exit;
 }
 if(isset($_GET['s'])){
