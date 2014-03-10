@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+    <LongName>leolovenet's show your ip</LongName> 
+    <ShortName>show your ip</ShortName>
+    <Description>show your IP with qqWrt &amp; taobao &amp; sina</Description>
+    <Contact>leolovenet@gmail.com</Contact>
+    <Url type="text/html" method="get" template="http://ip.bbkanba.com/?q={searchTerms}&amp;keyfrom=ip.plugin"/>	   
+    <Image height="16" width="16" type="image/x-icon">
+        data:image/vnd.microsoft.icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAADDtbZKRRog5zMEC/80BQ3/MQYP/zUIE/8zCBX/NwsZ/zgMHP84Dh7/OxAj/zgQJf89Eyr/PhUu/1IuRuXDt8BNRRog5zMEC/80BQ3/NAYQ/zIIEv8zCBX/NgsZ/zgMHP82DR3/OxAj/zwRJ/89Eyr/PhUu/zwWL/9AGTX/TyxH6TMEC/80BQ3/NAYQ/zUIE/82CRb/NgsZ/zULG/82DR3/OxAj/zwRJ/89Eyr/PhUu/z8XMv9BGTb/Phg2/z8aOf80BQ3/NAYQ/zUIE/82CRb/NwsZ/zgMHP85Dh//OA8h/zwRJ/89Eyr/OhQr/zwWMP89GDP/Qho5/z8aOf9EHkH/NAYQ/zUIE/82CRb/NAoY/4BvdP///////////////////////////8zHyv9zYW7/Qho5/0McPf9DHkD/RSBE/zQIEv82CRb/NwsZ/zULGv+AcHX//////+vp6v+qn6T/qaCl/8zHyv//////2NPW/0AbO/9EHkH/RSBE/0YiSP82CRb/NwsZ/zULGv82DR3/gXB3///////X09X/PhUu/z8XMv9BGTb///////////9EHkH/RSBE/0MhRf9EIUj/NwsZ/zgMHP85Dh//OA8h/4Bwd///////4d7g/4JyfP+Cc33/qqCn///////X09f/QR5A/0IgRP9II0z/SSVP/zgMHP82DR3/OxAj/zgQJf+AcXn////////////////////////////i3+L/VzxW/0QhRv9II0z/RSNK/0YkTf82DR3/OA8h/zwRJ/89Eyr/gnJ7///////X09b/Qho5/0EbO/+qoar//////5SGlf9EIUj/SSVP/0omUv9IJlL/OxAj/zwRJ/89Eyr/OhQr/4JyfP//////2NPW/0McPf9EHkH/rKKs//////+to67/SSVP/0glUP9LKFX/SylX/zwRJ/85Eij/PhUu/zsWL/+Dc3//////////////////////////////////h3eK/0omUv9KJ1T/TClY/00rW/89Eyr/PhUu/z8XMv9BGTb/ZE5e/6uhqf+qoar/q6Kr/6yirf+to67/aVRt/0omUv9LKFX/SCdT/0kpV/9NLF7/PBQs/zsWL/9AGTX/QBk4/0McPf9EHkH/RSBE/0YiSP9II0z/RSNK/0omUv9HJlD/TClY/0goVv9IKVj/Ti1g/1EsRedBGTb/Qho5/z8aOf9EHkH/QR5A/0YiSP9II0z/SCVO/0klUf9LKFX/SyhW/00rW/9KKlr/Ti1g/19BcOe8sblUUy9L50IbPP9AHD3/RSBE/0YiSP9EIUj/RSNK/0YkTf9LKFX/TClY/0sqWf9NLF7/Ti1g/19BcOfJwM9MgAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAEAAA==
+    </Image>    
+    <Developer>leolovenet</Developer>
+    <Attribution>
+        leolovenet.com 2014.
+    </Attribution>
+    <SyndicationRight>open</SyndicationRight>
+    <AdultContent>false</AdultContent>
+    <Language>en-us</Language>
+    <OutputEncoding>UTF-8</OutputEncoding>
+    <InputEncoding>UTF-8</InputEncoding>
+</OpenSearchDescription>

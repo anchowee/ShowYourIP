@@ -4,23 +4,33 @@ $clientIP = $_SERVER['REMOTE_ADDR'];
 $yourArea = iconv('GB2312','UTF-8',convertip_full($clientIP,'./qqwry.dat'));
 $yourSina = getSinaData($clientIP);
 $yourTaobao = getTaobaoData($clientIP);
+$queryIP='';
+$data=array();
 
-if(isset($_GET['q']) || (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
-	$queryIP = trim($_GET['queryip'] ? $_GET['queryip'] : $_GET['q']);
-	$data=array();
-	if( $queryIP  && ip2long($queryIP)){
-		$data['chunzhen'] = iconv('GB2312','UTF-8',convertip_full($queryIP,'./qqwry.dat'));
-		$data['sina'] = getSinaData($queryIP);
-		$data['taobao'] = getTaobaoData($queryIP);		
-	}else{
-		$str = '请输入正确IP';
-		$data['chunzhen'] = $data['sina'] = $data['taobao'] = $str;
-	}
+
+if(isset($_GET['q'])){
+	$queryIP = trim( $_GET['q'] );
+}elseif (isset($_GET['queryip'])) {
+	$queryIP = trim( $_GET['queryip']);
+}
+
+if( $queryIP  && ip2long($queryIP)){
+	$data['chunzhen'] = iconv('GB2312','UTF-8',convertip_full($queryIP,'./qqwry.dat'));
+	$data['sina'] = getSinaData($queryIP);
+	$data['taobao'] = getTaobaoData($queryIP);		
+}else{
+	$str = '请输入正确IP';
+	$data['chunzhen'] = $data['sina'] = $data['taobao'] = $str;
+}
+
+if( (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) && (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
 	echo decodeUnicode(json_encode($data));
 	exit;
 }
-if(isset($_GET['s'])){
-	echo $clientIP ."\nqqip:	". $yourArea ."\nsina:	". $yourSina ."\ntbip:	". $yourTaobao;
+
+
+if( substr_count($_SERVER['REQUEST_URI'], '??')){
+	echo "yourIP:   $clientIP <br/> qqip: $yourArea <br/> sina: $yourSina <br/> tbip:	 $yourTaobao";
 	exit;
 }
 
@@ -31,9 +41,10 @@ if(isset($_GET['s'])){
 <meta charset="utf-8">
 <title>Your IP Address &middot; 你的IP &middot; BBkanba.com &middot; 比比看吧</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
+<meta name="description" content="show your ip address">
+<meta name="author" content="leolovenet">
 <!-- Le styles -->
+<link rel="search" type="application/opensearchdescription+xml" title="Your IP" href="./assets/plugins/search-provider.xml"/>
 <link href="./assets/css/bootstrap.css" rel="stylesheet">
 <link href="./assets/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="./assets/fontdiao/css/fontdiao.css" rel="stylesheet">
@@ -100,7 +111,7 @@ body {
 	href="./assets/ico/apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed"
 	href="./assets/ico/apple-touch-icon-57-precomposed.png">
-<link rel="shortcut icon" href="./assets/ico/favicon.png">
+<link rel="shortcut icon" href="./assets/ico/favicon.ico" type="image/x-icon">
 </head>
 <body>
 	<div class="container">
@@ -205,7 +216,12 @@ body {
 			}
 			return false;
 	      });
-	    $("#queryIP").focus(); 	      	      
+	    $("#queryIP").focus(); 
+	    <?php 
+	    	if($queryIP){
+	    	echo '$("#queryIP").val("'.$queryIP.'");$("#querybt").click()';
+	    	}
+	    ?>	      	      
 		});
 	</script>
 </body>
