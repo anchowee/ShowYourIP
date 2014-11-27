@@ -133,18 +133,46 @@ function convertip_full($ip, $ipdatafile) {
 
 	return $ipaddr;
 }
-
+function getBaiduData($ip){
+	$location = '';
+	$D = json_decode(trim(file_get_contents('http://apistore.baidu.com/microservice/iplookup?ip='.$ip)),true);
+	if ( isset( $D['errMsg'] ) && $D['errMsg'] == 'success')  {
+		$location .= $D['retData']['country'];
+		$location .= $D['retData']['province'];
+		if( $D['retData']['province'] != $D['retData']['city']){
+			$location .= $D['retData']['city'];
+		}
+		$location .= $D['retData']['district'];
+		$location .= $D['retData']['carrier'];
+	}
+	return $location;
+}
 function getSinaData($ip){
 	$location = '';
 	$D = json_decode(trim(file_get_contents('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip='.$ip)),true);
-	($D['province'] == $D['city']) ? $location = $D['province'] : $location = $D['province'].$D['city'];
-	return $D['country']. $location . $D['desc'] . $D['isp'];
+	if (isset($D['province']) ){
+		$location .= $D['country'];
+		$location .= $D['province'];
+		if ($D['province'] != $D['city']) {
+			$location .= $D['province'].$D['city'];
+		}
+		$location .= $D['desc'];
+		$location .= $D['isp'];
+	}
+	return $location;
 }
 function getTaobaoData($ip){
 	$location = '';
 	$D = json_decode(trim(file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip)),true);
-	($D['data']['region'] == $D['data']['city']) ? $location = $D['data']['region'] : $location = $D['data']['region'].$D['data']['city'];
-	return $D['data']['country']. $location  . $D['data']['isp'];
+	if (isset($D['data']['region'] ) ){
+		$location .= $D['data']['country'];
+		$location .= $D['data']['region'];
+		if ($D['data']['region'] != $D['data']['city']){
+			$location .= $D['data']['city'];
+		}
+		$location .= $D['data']['isp'];
+	}
+	return $location;
 }
 function decodeUnicode($str)
 {
@@ -155,5 +183,3 @@ function decodeUnicode($str)
         ),
         $str);
 }
-
-

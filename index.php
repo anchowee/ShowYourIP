@@ -1,9 +1,10 @@
-<?php 
+<?php
 include_once 'lib.php';
 $clientIP = $_SERVER['REMOTE_ADDR'];
-$yourArea = iconv('GB2312','UTF-8',convertip_full($clientIP,'./qqwry.dat'));
+$yourArea = iconv('GB2312','UTF-8',convertip_full($clientIP,'./IPdata/qqwry.dat'));
 $yourSina = getSinaData($clientIP);
 $yourTaobao = getTaobaoData($clientIP);
+$yourBaidu = getBaiduData($clientIP);
 $queryIP='';
 $data=array();
 
@@ -15,9 +16,10 @@ if(isset($_GET['q'])){
 }
 
 if( $queryIP  && ip2long($queryIP)){
-	$data['chunzhen'] = iconv('GB2312','UTF-8',convertip_full($queryIP,'./qqwry.dat'));
+	$data['chunzhen'] = iconv('GB2312','UTF-8',convertip_full($queryIP,'./IPdata/qqwry.dat'));
 	$data['sina'] = getSinaData($queryIP);
-	$data['taobao'] = getTaobaoData($queryIP);		
+	$data['taobao'] = getTaobaoData($queryIP);
+	$data['baidu'] = getBaiduData($queryIP);
 }else{
 	$str = '请输入正确IP';
 	$data['chunzhen'] = $data['sina'] = $data['taobao'] = $str;
@@ -36,11 +38,11 @@ if( substr_count($_SERVER['REQUEST_URI'], '??')){
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="utf-8">
 <title>Your IP Address &middot; 你的IP &middot; BBkanba.com &middot; 比比看吧</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="show your ip address">
 <meta name="author" content="leolovenet">
 <!-- Le styles -->
@@ -119,31 +121,38 @@ body {
 			<h2 class="form-ip-heading">您的IP/Your IP Address is:</h2>
 
 			<div class="row-fluid">
-				<div class="input-prepend input-append">				
-					<span class="add-on">IP </span> 
+				<div class="input-prepend input-append">
+					<span class="add-on">IP </span>
 					<input class="span10" type="text" value="<?php echo $clientIP;?>">
 					<span class="add-on">你当前IP</span>
 				</div>
 			</div>
 			<div class="row-fluid">
 				<div class="input-prepend input-append">
-					<span class="add-on"><i class="icon-leaf"></i></span>				
-					<input class="span10" type="text" value="<?php echo $yourArea;?>"> 
+					<span class="add-on"><i class="icon-leaf"></i></span>
+					<input class="span10" type="text" value="<?php echo $yourArea;?>">
 					<span class="add-on">纯真数据</span>
 				</div>
 			</div>
 			<div class="row-fluid">
-				<div class="input-prepend input-append">				
+				<div class="input-prepend input-append">
 					<span class="add-on"><i class="icon-weibo"></i></span>
-					<input id="YsinaD" class="span10" type="text" value="<?php echo $yourSina;?>"> 
+					<input id="YsinaD" class="span10" type="text" value="<?php echo $yourSina;?>">
 					<span class="add-on">新浪数据</span>
 				</div>
 			</div>
 			<div class="row-fluid">
 				<div class="input-prepend input-append">
 				<span class="add-on"><i class="icon-taobao"></i></span>
-					<input id="YtaobaoD" class="span10" type="text" value="<?php echo $yourTaobao;?>"> 
+					<input id="YtaobaoD" class="span10" type="text" value="<?php echo $yourTaobao;?>">
 					<span class="add-on">淘宝数据</span>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="input-prepend input-append">
+					<span class="add-on"><i class="icon-baidu"></i></span>
+					<input id="YbaiduD" class="span10" type="text" value="<?php echo $yourBaidu;?>">
+					<span class="add-on">百度数据</span>
 				</div>
 			</div>
 
@@ -161,23 +170,30 @@ body {
 			<div id="querydata" class="hide">
 				<div class="row-fluid">
 					<div class="input-prepend input-append">
-						<span class="add-on"><i class="icon-leaf"></i></span>	
-						<input id="queryResult" class="span10" type="text" value=""> 
+						<span class="add-on"><i class="icon-leaf"></i></span>
+						<input id="queryResult" class="span10" type="text" value="">
 						<span class="add-on">纯真数据</span>
 					</div>
 				</div>
 				<div class="row-fluid">
 					<div class="input-prepend input-append">
 						<span class="add-on"><i class="icon-weibo"></i></span>
-						<input id="QsinaD" class="span10" type="text" value=""> 
+						<input id="QsinaD" class="span10" type="text" value="">
 						<span class="add-on">新浪数据</span>
 					</div>
 				</div>
 				<div class="row-fluid">
 					<div class="input-prepend input-append">
 						<span class="add-on"><i class="icon-taobao"></i></span>
-						<input id="QtaobaoD" class="span10" type="text" value=""> 
+						<input id="QtaobaoD" class="span10" type="text" value="">
 						<span class="add-on">淘宝数据</span>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="input-prepend input-append">
+						<span class="add-on"><i class="icon-baidu"></i></span>
+						<input id="QbaiduD" class="span10" type="text" value="">
+						<span class="add-on">百度数据</span>
 					</div>
 				</div>
 			</div>
@@ -195,20 +211,21 @@ body {
 	<script src="./assets/js/jquery.js"></script>
 	<script src="./assets/js/bootstrap-button.js"></script>
 	<script type="text/javascript">
-	$(function(){								
+	$(function(){
 	    $('#querybt').click(function () {
-	    	$('#queryResult').val('');	    	
-	        var btn = $(this);	        
+	    	$('#queryResult').val('');
+	        var btn = $(this);
 	        var ip = $("#queryIP").val();
-	        if(!ip){alert("请输入ip");return false;}	        
+	        if(!ip){alert("请输入ip");return false;}
 	        btn.button('loading');
 	        $.getJSON('index.php',{'queryip':ip},function(D){
 		         $('#queryResult').val(D.chunzhen);
 		         $("#QsinaD").val(D.sina);
 		         $("#QtaobaoD").val(D.taobao);
+				 $("#QbaiduD").val(D.baidu);
 	        	 btn.button('reset');
 		      });
-		      		      
+
 	    	querydata = $("#querydata");
 			if(querydata.hasClass('hide')){
 				querydata.removeClass('hide');
@@ -216,12 +233,12 @@ body {
 			}
 			return false;
 	      });
-	    $("#queryIP").focus(); 
-	    <?php 
+	    $("#queryIP").focus();
+	    <?php
 	    	if($queryIP){
 	    	echo '$("#queryIP").val("'.$queryIP.'");$("#querybt").click()';
 	    	}
-	    ?>	      	      
+	    ?>
 		});
 	</script>
 </body>
